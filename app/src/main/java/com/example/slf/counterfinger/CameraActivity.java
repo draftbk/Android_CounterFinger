@@ -1,9 +1,12 @@
 package com.example.slf.counterfinger;
 
-import android.app.Activity;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,18 +24,13 @@ import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfInt4;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
-import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-
-public class OpenCameraActivity extends Activity implements CameraBridgeViewBase.CvCameraViewListener2, View.OnClickListener {
-
+public class CameraActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2, View.OnClickListener{
     private static final String TAG = "OpenCameraActivity";
-    private Button button;
 
     static {
         OpenCVLoader.initDebug();
@@ -46,23 +44,23 @@ public class OpenCameraActivity extends Activity implements CameraBridgeViewBase
 
     private CameraBridgeViewBase mOpenCvCameraView;
 
-    public OpenCameraActivity() {
+    public CameraActivity() {
 
         Log.i(TAG, "Instantiated new " + this.getClass());
     }
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "called onCreate");
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_camera);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        setContentView(R.layout.activity_open_camera);
-        button= (Button) findViewById(R.id.button);
-        button.setOnClickListener(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
+
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.fd_activity_surface_view);
         mOpenCvCameraView.enableView();//
         mOpenCvCameraView.setCvCameraViewListener(this);
@@ -75,9 +73,7 @@ public class OpenCameraActivity extends Activity implements CameraBridgeViewBase
                 return false;
             }
         });
-
     }
-
     @Override
     public void onPause() {
         super.onPause();
@@ -224,13 +220,14 @@ public class OpenCameraActivity extends Activity implements CameraBridgeViewBase
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.button:
+            case R.id.fab:
 //                Toast.makeText(OpenCameraActivity.this,""+num,Toast.LENGTH_SHORT).show();
                 if (lastshownum==0){
                     lastshownum++;
                 }
-                Toast.makeText(OpenCameraActivity.this,lastshownum+"",Toast.LENGTH_SHORT).show();
+                Toast.makeText(CameraActivity.this,lastshownum+"",Toast.LENGTH_SHORT).show();
                 break;
         }
     }
+
 }

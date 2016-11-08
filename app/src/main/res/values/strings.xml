@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CounterFinger</string>
+    <string name="title_activity_camera">CameraActivity</string>
 </resources>
