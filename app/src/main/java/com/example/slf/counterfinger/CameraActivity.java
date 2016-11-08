@@ -41,8 +41,8 @@ public class CameraActivity extends AppCompatActivity implements CameraBridgeVie
     private Mat mFlipRgba;
     private Mat mTransposeRgba;
     private Handler handler;
-
     private CameraBridgeViewBase mOpenCvCameraView;
+
 
     public CameraActivity() {
 
@@ -115,14 +115,17 @@ public class CameraActivity extends AppCompatActivity implements CameraBridgeVie
         Imgproc.threshold(mRgba, mRgba, 100, 255, Imgproc.THRESH_BINARY);
         Imgproc.cvtColor(mRgba, mFlipRgba, Imgproc.COLOR_GRAY2RGBA, 4);
         Mat hierarchy = new Mat();
+        //转换矩阵的数据类型
         hierarchy.convertTo(hierarchy, CvType.CV_32SC1);
         //定义轮廓抽取模式
+        //zhichaozhaowaiweilunkuo
         int mode = Imgproc.RETR_EXTERNAL;
-        //定义轮廓识别方法
+        //定义轮廓识别方法,边缘近似方法
+        //将所有连码点转换成点
         int method = Imgproc.CHAIN_APPROX_NONE;
-        Log.d("test.....","here");
+        //Log.d("test.....","here");
         Imgproc.findContours(mRgba, contours,hierarchy,mode,method);
-        Log.d("test.....","here2");
+        //Log.d("test.....","here2");
 
         num=contours.size();
         double x=0;
@@ -132,7 +135,7 @@ public class CameraActivity extends AppCompatActivity implements CameraBridgeVie
             x=x+ap[0].x;
             y=y+ap[0].y;
         }
-        Point cenPoint=new Point(x/contours.size(),y/contours.size());
+        //Point cenPoint=new Point(x/contours.size(),y/contours.size());
         ArrayList<MatOfInt> hull=new ArrayList<MatOfInt>();
         ArrayList<MatOfInt4> dis=new ArrayList<MatOfInt4>();
         int shownum=0;
@@ -140,6 +143,7 @@ public class CameraActivity extends AppCompatActivity implements CameraBridgeVie
         lastshownum=0;
         for (int k=0; k < contours.size(); k++){
             MatOfInt matint=new MatOfInt();
+            //凸包
             Imgproc.convexHull(contours.get(k), matint,true);
             hull.add(matint);
 
@@ -147,14 +151,10 @@ public class CameraActivity extends AppCompatActivity implements CameraBridgeVie
         for (int k=0; k < contours.size(); k++){
             try {
                 MatOfInt4 matint4=new MatOfInt4();
+                //凸缺陷
                 Imgproc.convexityDefects(contours.get(k), hull.get(k),matint4);
                 List<Integer> cdList = matint4.toList();
-//                double[] a=matint4.get(0,0);
 
-//                int a1=cdList.get(0);
-//                int a2=cdList.get(1);
-//                int a3=cdList.get(2);
-//                int a4=cdList.get(3);
                 shownum=0;
                 for (int i=0;i<cdList.size();i++){
                     if (i%4==3&&cdList.get(i)>40500){
