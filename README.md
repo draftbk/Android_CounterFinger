@@ -4,4 +4,4 @@
 
 
 
-<img src="http://7xkl1b.com1.z0.glb.clouddn.com/counterFinger2.jpg" width="49%" height="49%"> <img src="http://7xkl1b.com1.z0.glb.clouddn.com/counterFinger5.jpg" width="49%" height="49%">
+<img src="http://7xkl1b.com1.z0.glb.clouddn.com/counterFinger2.jpg" width="33%" height="33%"> <img src="http://7xkl1b.com1.z0.glb.clouddn.com/counterFinger5.jpg" width="33%" height="33%">
